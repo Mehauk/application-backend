@@ -1,3 +1,5 @@
 fastapi
 sqlmodel
 alembic
+asyncpg
+aiosqlite

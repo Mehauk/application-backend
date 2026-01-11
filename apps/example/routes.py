@@ -12,13 +12,13 @@ router = APIRouter(
 
 @router.get("/models")
 async def greet(session: SessionDep) -> list[ExampleModel]:
-    models = session.exec(select(ExampleModel)).all()
+    models = (await session.execute(select(ExampleModel))).scalars().all()
     return list(models)
 
 
 @router.post("/models")
 async def createExampleModel(model: ExampleModel, session: SessionDep):
     session.add(model)
-    session.commit()
-    session.refresh(model)
+    await session.commit()
+    await session.refresh(model)
     return model
