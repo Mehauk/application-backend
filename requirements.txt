@@ -1,5 +1,6 @@
 fastapi
 sqlmodel
-alembic
 asyncpg
 aiosqlite
+alembic
+argparse
