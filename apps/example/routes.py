@@ -22,3 +22,11 @@ async def createExampleModel(model: ExampleModel, session: SessionDep):
     await session.commit()
     await session.refresh(model)
     return model
+
+
+@router.put("/models")
+async def create_model(model: ExampleModel, session: SessionDep):
+    db_model = await session.merge(model)
+    await session.commit()
+    await session.refresh(db_model)
+    return db_model

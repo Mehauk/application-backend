@@ -4,6 +4,7 @@ from pathlib import Path
 # Templates (Note: using f-strings if you want to inject the stack_name into the templates)
 MODELS_TEMPLATE = """from sqlmodel import Field, SQLModel
 
+
 class {Name}Model(SQLModel, table=True):
     id: int = Field(default=None, primary_key=True)
 """
@@ -18,10 +19,12 @@ router = APIRouter(
     tags=["{name}"],
 )
 
+
 @router.get("/models")
 async def get_models(session: SessionDep) -> list[{Name}Model]:
     models = (await session.execute(select({Name}Model))).scalars().all()
     return list(models)
+
 
 @router.post("/models")
 async def create_model(model: {Name}Model, session: SessionDep):
@@ -29,6 +32,14 @@ async def create_model(model: {Name}Model, session: SessionDep):
     await session.commit()
     await session.refresh(model)
     return model
+
+
+@router.put("/models")
+async def create_model(model: {Name}Model, session: SessionDep):
+    db_model = await session.merge(model)
+    await session.commit()
+    await session.refresh(db_model)
+    return db_model
 """
 
 IMPORT_TEMPLATE = """from .apps.{name} import routes as {name}"""
