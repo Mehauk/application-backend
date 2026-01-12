@@ -35,7 +35,7 @@ async def create_model(model: {Name}Model, session: SessionDep):
 
 
 @router.put("/models")
-async def create_model(model: {Name}Model, session: SessionDep):
+async def update_model(model: {Name}Model, session: SessionDep):
     db_model = await session.merge(model)
     await session.commit()
     await session.refresh(db_model)
